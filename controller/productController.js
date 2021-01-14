@@ -36,6 +36,43 @@ module.exports.create = async (req, res) => {
   }
 }
 
+//! PRODUCT UPDATE
+module.exports.update = async (req, res) => {
+  const { name, description, quantity, images, price } = req.body
+
+  // validation of the data
+  // const { error } = createProductValidation(req.body)
+  // if (error)
+  //   return res.status(400).json({ errorMessage: error.details[0].message })
+
+  // We query the db
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      {
+        name: name,
+        slug: slugify(name),
+        description: description,
+        price: price,
+        quantity: quantity,
+        // category: category,
+        images: images,
+      },
+      { new: true }
+    )
+
+    if (!updatedProduct)
+      return res.status(400).json({
+        errorMessage: "Nothing updated, make sure your slug is valid",
+      })
+
+    res.json(updatedProduct)
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ errorMessage: err.message })
+  }
+}
+
 module.exports.read = async (req, res) => {
   const { slug } = req.params
 
