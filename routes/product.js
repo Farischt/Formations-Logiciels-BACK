@@ -1,9 +1,10 @@
-const router = require("express").Router();
+const router = require("express").Router()
 // Middlewares
-const { verifyAuth, verifyAdmin } = require("../middlewares/auth");
+const { verifyAuth, verifyAdmin } = require("../middlewares/auth")
 // Controller
 const {
   create,
+  update,
   read,
   listAll,
   remove,
@@ -13,27 +14,29 @@ const {
   rate,
   listRelated,
   searchWithFilters,
-} = require("../controller/productController");
+} = require("../controller/productController")
 
 // Route to create a product
-router.post("/product", verifyAuth, verifyAdmin, create);
+router.post("/product", verifyAuth, verifyAdmin, create)
 // Route to read a product
-router.get("/product/:slug", read);
+router.get("/product/:slug", read)
 // Route to list all products
-router.get("/products", listAll);
+router.get("/products", listAll)
 // Route that delete a product
-router.delete("/product/:slug", verifyAuth, verifyAdmin, remove);
+router.delete("/product/:slug", verifyAuth, verifyAdmin, remove)
+// Route that update a product
+router.put("/product/:slug", verifyAuth, verifyAdmin, update)
 // Route that get products with specific criteras
-router.post("/products", list);
+router.post("/products", list)
 // Route that get the total of products
-router.get("/products/total", productsTotal);
+router.get("/products/total", productsTotal)
 // Route that get a list of products to be paginated
-router.post("/products/page", listPagination);
+router.post("/products/page", listPagination)
 // Route that apply a rate to a product
-router.put("/product/rating/:productId", verifyAuth, rate);
+router.put("/product/rating/:productId", verifyAuth, rate)
 // Route to read a product
-router.get("/product/related/:productId", listRelated);
+router.get("/product/related/:productId", listRelated)
 // Route that
-router.post("/search/filters", searchWithFilters);
+router.post("/search/filters", searchWithFilters)
 
-module.exports = router;
+module.exports = router
